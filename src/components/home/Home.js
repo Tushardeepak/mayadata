@@ -4,6 +4,7 @@ import styled from "styled-components";
 import searchImg from "../../assets/svg/search.svg";
 import deleteImg from "../../assets/svg/delete.svg";
 import clearImg from "../../assets/svg/clear.svg";
+import PuffLoader from "react-spinners/PuffLoader";
 function Home() {
   const [search, setSearch] = useState("");
   const [searchStartTime, setSearchStartTime] = useState("");
@@ -14,15 +15,18 @@ function Home() {
   const [startTime, setStartTime] = useState("");
   const [endTime, setEndTime] = useState("");
   const [error, setError] = useState(false);
+  const [loader, setLoader] = useState(false);
   const [meetingList, setMeetingList] = useState([]);
 
   const getList = () => {
+    setLoader(true);
     axios
-      .get("http://localhost:4000")
+      .get("https://mayadatabackend.herokuapp.com/")
       .then((list) => {
         console.log(list);
         setMeetingList(list.data.reverse());
       })
+      .then(() => setLoader(false))
       .catch((err) => console.log(err));
   };
 
@@ -38,12 +42,14 @@ function Home() {
       startTime !== "" &&
       endTime !== ""
     ) {
+      setLoader(true);
       axios
         .post(
-          `http://localhost:4000/add?name=${text}&people=${number}&date=${date}&startTime=${startTime}&endTime=${endTime}`
+          `https://mayadatabackend.herokuapp.com/add?name=${text}&people=${number}&date=${date}&startTime=${startTime}&endTime=${endTime}`
         )
         .then(() => console.log("success"))
         .then(() => getList())
+        .then(() => setLoader(false))
         .catch((err) => console.log(err));
 
       setText("");
@@ -60,16 +66,21 @@ function Home() {
   };
 
   const handleDelete = (id) => {
+    setLoader(true);
     axios
-      .delete(`http://localhost:4000/${id}`)
+      .delete(`https://mayadatabackend.herokuapp.com/${id}`)
       .then(() => console.log("deleted"))
       .then(() => getList())
+      .then(() => setLoader(false))
       .catch((err) => console.log(err));
   };
   var count = 1;
   return (
     <HomeContainer>
-      <p className="heading">My Meetings</p>
+      <div style={{ display: "flex" }}>
+        <p className="heading">My Meetings</p>
+        <PuffLoader loading={loader} size={30} />
+      </div>
       <FilterContainer>
         <InputField>
           <img src={searchImg} />
@@ -263,6 +274,7 @@ const HomeContainer = styled.div`
     font-weight: 200px;
     font-size: clamp(20px, 2.5vw, 38px);
     margin-bottom: 50px;
+    margin-right: 20px;
   }
 `;
 

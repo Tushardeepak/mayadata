@@ -35,7 +35,7 @@ function Profile() {
             authentication, authorization, separate list every individual.
           </p>
         </ContentBox>
-        {/* <img src={profile} className="profilePic" /> */}
+        <img src={profile} className="profilePic" />
       </ProfileBox>
     </ProfileContainer>
   );
@@ -70,8 +70,8 @@ const ProfileBox = styled.div`
   .profilePic {
     flex: 0.3;
     object-fit: contain;
-    height: 200px;
-    width: 200px;
+    height: 220px;
+    width: 220px;
     transform: scaleX(-1) rotate(10deg);
     @media (max-width: 1000px) {
       flex: 1;
@@ -85,6 +85,6 @@ const ContentBox = styled.div`
     flex: 1;
   }
   p {
-    margin: 5px;
+    margin: 10px;
   }
 `;
