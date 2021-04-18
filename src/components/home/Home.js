@@ -398,11 +398,14 @@ const InputTableBox = styled.div`
   position: absolute;
   z-index: 1000;
   bottom: 20px;
-  left: -40px;
+  left: -60px;
   height: 20px;
   width: 100%;
   display: flex;
   justify-content: space-evenly;
+  @media (max-width: 1300px) {
+    left: -35px;
+  }
 
   .inputArea {
     width: 120px;
@@ -410,6 +413,7 @@ const InputTableBox = styled.div`
     border: none;
     border-bottom: 2px solid #000;
     font-size: 12px;
+    padding: 0 5px;
   }
   .inputArea::placeholder {
     font-size: 12px;
